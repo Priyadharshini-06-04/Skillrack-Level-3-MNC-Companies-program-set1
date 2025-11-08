@@ -1,0 +1,26 @@
+#include <stdio.h>
+
+int main() {
+    int num;
+    
+    if (scanf("%d", &num) != 1) {
+        fprintf(stderr, "Error: Invalid input format.\n");
+        return 1; 
+    }
+
+    if (num > 7000) {
+        printf("OVERLOADED\n");
+    } else if (num > 4000 && num <= 7000) {
+        printf("45\n");
+    } else if (num >= 2001 && num <= 4000) {
+        printf("35\n");
+    } else if (num >= 1 && num <= 2000) {
+        printf("25\n");
+    } else if (num == 0) {
+        printf("0\n");
+    } else {
+        printf("INVALID INPUT\n");
+    }
+
+    return 0;
+}
