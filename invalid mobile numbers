@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX_LENGTH 21 
+
+int is_valid_mobile(const char *s) {
+    if (strlen(s) != 10) {
+        return 0; 
+    }
+    
+    for (int i = 0; i < 10; i++) {
+        if (!isdigit(s[i])) {
+            return 0; 
+        }
+    }
+    
+    return 1;
+}
+
+int main() {
+    char mobile_number[MAX_LENGTH];
+    int invalid_count = 0;
+
+    while (scanf("%20s", mobile_number) == 1) {
+        
+        if (strcmp(mobile_number, "Q") == 0 || strcmp(mobile_number, "q") == 0) {
+            break; 
+        }
+        
+        if (!is_valid_mobile(mobile_number)) {
+            invalid_count++;
+        }
+    }
+
+    printf("%d\n", invalid_count);
+    
+    return 0;
+}
