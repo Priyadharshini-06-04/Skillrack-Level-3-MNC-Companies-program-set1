@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define MAX_COLORS 100 
+
+int main() {
+    char colors[MAX_COLORS][21]; 
+    int num_colors = 0;
+    
+    long long total_groups = 0; 
+    
+    char line[4096]; 
+
+    if (fgets(line, sizeof(line), stdin) == NULL) {
+        return 1;
+    }
+    
+    char *token = strtok(line, " \n\r");
+    
+    while (token != NULL && num_colors < MAX_COLORS) {
+        strcpy(colors[num_colors], token);
+        num_colors++;
+        token = strtok(NULL, " \n\r");
+    }
+
+    for (int i = 0; i < num_colors; i++) {
+        for (int j = i; j < num_colors; j++) {
+            if (strcmp(colors[i], colors[j]) == 0) {
+                total_groups++;
+            }
+        }
+    }
+    
+    printf("%lld\n", total_groups);
+
+    return 0;
+}
