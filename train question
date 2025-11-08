@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int time_to_minutes(const char *time_str) {
+    int hh, mm;
+    if (sscanf(time_str, "%d:%d", &hh, &mm) != 2) {
+        return -1; 
+    }
+    return hh * 60 + mm;
+}
+
+void minutes_to_time(int total_minutes, char *time_str) {
+    total_minutes = total_minutes % 1440;
+    if (total_minutes < 0) {
+        total_minutes += 1440;
+    }
+    
+    int hh = total_minutes / 60;
+    int mm = total_minutes % 60;
+    
+    sprintf(time_str, "%02d:%02d", hh, mm);
+}
+
+int main() {
+    int num;
+    
+    char x_arr[100][6];
+    
+    char y_time[6]; 
+    
+    if (scanf("%d", &num) != 1) return 1;
+
+    for (int i = 0; i < num; i++) {
+        if (scanf("%5s", x_arr[i]) != 1) return 1;
+    }
+
+    if (scanf("%5s", y_time) != 1) return 1;
+
+    printf("%s ", y_time); 
+
+    int dep_X_A_minutes = time_to_minutes(x_arr[0]);
+    int dep_Y_A_minutes = time_to_minutes(y_time);
+
+    if (dep_X_A_minutes == -1 || dep_Y_A_minutes == -1) return 1;
+
+    int diff = dep_Y_A_minutes;
+
+    for (int i = 0; i < num - 1; i++) {
+        int min1 = time_to_minutes(x_arr[i]);
+        int min2 = time_to_minutes(x_arr[i+1]);
+
+        if (min1 == -1 || min2 == -1) return 1;
+
+        int x_min = min2 - min1;
+        
+        diff += x_min;
+
+        char result_time[6];
+        minutes_to_time(diff, result_time);
+
+        printf("%s%s", result_time, (i == num - 2) ? "" : " ");
+    }
+    printf("\n");
+
+    return 0;
+}
