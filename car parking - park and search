@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define MAX_TOTAL_SPOTS 100 
+#define MAX_REGISTER_LENGTH 20 
+#define MAX_QUERY 100 
+
+int find_car_index(char register_array[MAX_TOTAL_SPOTS][MAX_REGISTER_LENGTH], int current_size, const char *reg_num) {
+    for (int i = 0; i < current_size; i++) {
+        if (strcmp(register_array[i], reg_num) == 0) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int main() {
+    int size;      
+    int total;     
+    int query;     
+
+    if (scanf("%d", &size) != 1) return 1;
+
+    char register_array[MAX_TOTAL_SPOTS][MAX_REGISTER_LENGTH];
+
+    for (int i = 0; i < size; i++) {
+        if (scanf("%19s", register_array[i]) != 1) return 1;
+    }
+
+    if (scanf("%d", &total) != 1) return 1;
+
+    if (scanf("%d", &query) != 1) return 1;
+
+    while (getchar() != '\n' && !feof(stdin)); 
+
+    char line[MAX_REGISTER_LENGTH * 2]; 
+    
+    for (int i = 0; i < query; i++) {
+        if (fgets(line, sizeof(line), stdin) == NULL) break; 
+        
+        char *sarr[2];
+        sarr[0] = strtok(line, " \n\r");
+        sarr[1] = strtok(NULL, " \n\r");
+
+        if (sarr[0] == NULL) continue;
+
+        if (strcmp(sarr[0], "1") == 0) {
+            if (sarr[1] == NULL) continue;
+            
+            if (size < total) {
+                strncpy(register_array[size], sarr[1], MAX_REGISTER_LENGTH - 1);
+                register_array[size][MAX_REGISTER_LENGTH - 1] = '\0'; 
+                
+                size++;
+                printf("Car parked at position: %d\n", size);
+            } else {
+                printf("No space for parking\n");
+            }
+        } 
+        else if (strcmp(sarr[0], "2") == 0) {
+             if (sarr[1] == NULL) continue;
+             
+            int index = find_car_index(register_array, size, sarr[1]);
+            
+            if (index != -1) {
+                printf("Car position: %d\n", index + 1);
+            } else {
+                printf("Car does not exists\n");
+            }
+        } 
+        else {
+            printf("Invalid\n");
+        }
+    }
+
+    return 0;
+}
