@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+bool is_strong_point(int matrix[50][50], int R, int C, int r, int c) {
+    int current_element = matrix[r][c];
+
+    int dr[] = {-1, -1, -1, 0, 0, 1, 1, 1};
+    int dc[] = {-1, 0, 1, -1, 1, -1, 0, 1};
+
+    for (int i = 0; i < 8; i++) {
+        int nr = r + dr[i]; 
+        int nc = c + dc[i]; 
+
+        if (nr >= 0 && nr < R && nc >= 0 && nc < C) {
+            if (current_element <= matrix[nr][nc]) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+int main() {
+    int R, C;
+    
+    int matrix[50][50];
+
+    if (scanf("%d %d", &R, &C) != 2) {
+        return 1; 
+    }
+
+    for (int i = 0; i < R; i++) {
+        for (int j = 0; j < C; j++) {
+            if (scanf("%d", &matrix[i][j]) != 1) {
+                return 1; 
+            }
+        }
+    }
+
+    int strong_point_count = 0;
+
+    for (int i = 0; i < R; i++) {
+        for (int j = 0; j < C; j++) {
+            if (is_strong_point(matrix, R, C, i, j)) {
+                strong_point_count++;
+            }
+        }
+    }
+
+    printf("%d\n", strong_point_count);
+
+    return 0;
+}
